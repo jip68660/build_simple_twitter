@@ -1,12 +1,23 @@
 import React from 'react';
-import Status from './components/Status'
+import StatusList from './components/StatusList'
 
 class App extends React.Component{
   render() {
-    const name="Jihoon Shin";
+    // XXX: Get all names and texts here.
+    // const name = "Jihoon Shin";
+    // const text = "Hello, world!";
+
+    const userPosts = [
+      { "name" : "jihoon", "text": "Hello"},
+      { "name" : "jeong", "text": "Hello bye"},
+      { "name" : "june", "text": "Hello yooooo"}
+    ];
     
     return(
-      <Status name={ name }> </Status>
+      <div>
+        <StatusList userPosts = { userPosts } />
+      </div>
+
     );
   }
 

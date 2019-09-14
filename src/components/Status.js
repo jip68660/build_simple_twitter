@@ -6,7 +6,7 @@ const Status = (props) => {
     return (
         <div>
             <StatusHeader name={ props.name } /> 
-            <StatusContent />
+            <StatusContent text={ props.text } />
         </div>
     );
 };

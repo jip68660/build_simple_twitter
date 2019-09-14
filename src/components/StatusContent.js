@@ -1,9 +1,9 @@
 import React from 'react';
 
-const StatusContent = () => {
+const StatusContent = (props) => {
     return(
         <div className ="context">
-            <p>This is Jihoon</p>
+            <p>{ props.text }</p>
         </div>
     );
 };
