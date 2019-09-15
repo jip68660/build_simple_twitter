@@ -4,7 +4,13 @@ const StatusHeader = (props) => {
     return(
         <div className='header'>
             <div className="name">
-                { props.name }
+                { props.name }  
+            </div> 
+            <div className="handle">
+               @{ props.handle }
+            </div>
+            <div className="timeStamp">
+                { props.timestamp }
             </div>
         </div>
     )
