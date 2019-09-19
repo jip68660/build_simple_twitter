@@ -1,4 +1,5 @@
 import React from 'react';
+import "./StatusInput.css";
 
 class StatusInput extends React.Component {
     constructor(props) {
@@ -20,11 +21,15 @@ class StatusInput extends React.Component {
 
     render() {
         return(
-            <div>
-                <input className="getName" value={ this.props.nameInput } name="name" onChange={ this.handleName } />
-                <input className="getHandle" value={ this.props.handleInput } name="handle" onChange={ this.handleHandle } />
-                <input className="getText" value={ this.props.textInput } name="text" onChange={ this.handleText } />
-                <button onClick={ this.props.handleSubmit }> O </button>
+            <div className="inputTemplate">
+                <div className="topContent">
+                    <input className="getName" placeholder="Name" value={ this.props.nameInput } name="name" onChange={ this.handleName } />
+                    <input className="getHandle" placeholder="Handle" value={ this.props.handleInput } name="handle" onChange={ this.handleHandle } />
+                </div>
+                <div className="bottomContent">
+                    <textarea className="getText" placeholder="What's happening?" value={ this.props.textInput } name="text" onChange={ this.handleText } onKeyPress={ this.props.handleKeypress}/>
+                    <button className="submitButton" onClick={ this.props.handleSubmit }> TWEET </button>
+                </div>
             </div>
         );
     }

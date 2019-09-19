@@ -1,0 +1,47 @@
+.inputTemplate {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 600px;
+    border: 1px solid rgb(223, 223, 223);
+}
+.topContent {
+    display: flex;
+    flex: auto;
+    border-bottom: 1px solid rgb(223, 223, 223);
+}
+.getName {
+    outline: none;
+    padding: 3%;
+    border: none;
+}
+.getHandle {
+    outline: none;
+    padding: 3%;
+    border: none;
+}
+.bottomContent {
+    padding: 3%;
+}
+.getText {
+    font-family: sans-serif;
+    font-size: 20px;
+    width: 94%;
+    outline: none;
+    height: 80px;
+    border: none;
+}
+.submitButton {
+    color: white;
+    outline: none;
+    border: none;
+    width: 15%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    background: rgb(95, 162, 218);
+    border-radius: 5rem;
+    float: right;
+}
+.submitButton:hover {
+    cursor: pointer;
+}

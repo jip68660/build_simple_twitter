@@ -12,10 +12,13 @@ class App extends React.Component{
       name: "",
       handle: "",
       text: "",
+      likes: 0,
       userPosts: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeypress = this.handleKeypress.bind(this);
+    this.handleLikes = this.handleLikes.bind(this);
   }
 
 
@@ -23,8 +26,7 @@ class App extends React.Component{
     this.setState({
       [input]: event.target.value
     });
-  }
-  
+  }  
   handleSubmit = (event) => {
     event.preventDefault();
     
@@ -32,7 +34,7 @@ class App extends React.Component{
     var dateFormat = (now.getMonth()+1) + "/" + now.getDate();
 
     this.setState((prevState)=>{
-      const newUserPost = { "name" : prevState.name, "handle": prevState.handle, "text": prevState.text, "timestamp": dateFormat };
+      const newUserPost = { "name" : prevState.name, "handle": prevState.handle, "text": prevState.text, "likes": prevState.likes, "timestamp": dateFormat };
       return {
         ...prevState,
         name: "",
@@ -42,6 +44,18 @@ class App extends React.Component{
       }
     });
     console.log(this.state);
+  }
+  handleKeypress = (event) => {
+    if (event.key === "Enter") {
+      this.handleSubmit(event);
+    }
+  }
+  //Working on it.
+  handleLikes = (event) => {
+    this.setState({
+      likes: event.target.value + 1
+    });
+    console.log("Clicked");
   }
   render() {
     // XXX: Get all names and texts here.
@@ -56,8 +70,8 @@ class App extends React.Component{
 
     return(
       <div>
-        <StatusInput nameInput={ this.state.name } handleInput={ this.state.handle } textInput={ this.state.text } handleChange={ this.handleChange } handleSubmit={ this.handleSubmit }/>
-        <StatusList userPosts={ this.state.userPosts } />
+        <StatusInput nameInput={ this.state.name } handleInput={ this.state.handle } textInput={ this.state.text } handleChange={ this.handleChange } handleSubmit={ this.handleSubmit } handleKeypress={ this.handleKeypress }/>
+        <StatusList userPosts={ this.state.userPosts } handleLikes={ this.handleLikes }/>
       </div>
 
     );

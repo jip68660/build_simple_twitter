@@ -6,7 +6,8 @@ const Status = (props) => {
     return (
         <div>
             <StatusHeader name={ props.name } handle={ props.handle } timestamp = { props.timestamp }/> 
-            <StatusContent text={ props.text } />
+            <StatusContent text={ props.text } likes={ props.likes } handleLikes = { props.handleLikes }/>
+
         </div>
     );
 };
