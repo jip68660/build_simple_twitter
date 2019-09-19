@@ -28,7 +28,7 @@ class StatusInput extends React.Component {
                 </div>
                 <div className="bottomContent">
                     <textarea className="getText" placeholder="What's happening?" value={ this.props.textInput } name="text" onChange={ this.handleText } onKeyPress={ this.props.handleKeypress}/>
-                    <button className="submitButton" onClick={ this.props.handleSubmit }> TWEET </button>
+                    <button className="submitButton" onClick={ this.props.handleSubmit }> Tweet </button>
                 </div>
             </div>
         );
