@@ -10,15 +10,14 @@ class StatusList extends React.Component {
         const userPosts = this.props.userPosts;
         const statuses = userPosts.map((post, index) => {
             return (
-                <Status key={ index } name={ post.name } handle={ post.handle } text={ post.text } timestamp={ post.timestamp} likes={ post.likes } onClick={ this.props.handleLikes } />
+                <Status key={ index } name={ post.name } handle={ post.handle } text={ post.text } timestamp={ post.timestamp} likes={ post.likes } handleLikes={ this.props.handleLikes } />
             );
         });
-
+        // console.log(userPosts);
         // JSX syntax 
         return(
             <div>
                 { statuses }
-                Likes: { this.props.userPosts.likes }
             </div>
         );
     };

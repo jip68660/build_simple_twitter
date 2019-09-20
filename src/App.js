@@ -52,8 +52,8 @@ class App extends React.Component{
   }
   //Working on it.
   handleLikes = (event) => {
-    this.setState({
-      likes: event.target.value + 1
+    this.setState(() => {
+      likes: this.likes++;
     });
     console.log("Clicked");
   }

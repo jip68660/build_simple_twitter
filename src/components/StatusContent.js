@@ -1,9 +1,11 @@
 import React from 'react';
+import "./StatusContent.css";
 
 const StatusContent = (props) => {
     return(
-        <div className ="context">
-            <p>{ props.text } <span onClick={ props.handleLikes }> Likes: { props.likes }</span></p>
+        <div className ="content">
+            <p>{ props.text }</p>
+            <button onClick={ props.handleLikes}> {props.likes} </button>
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import "./StatusHeader.css";
 
 const StatusHeader = (props) => {
     return(
@@ -7,7 +8,7 @@ const StatusHeader = (props) => {
                 { props.name }  
             </div> 
             <div className="handle">
-               @{ props.handle }
+               @{ props.handle } · 
             </div>
             <div className="timeStamp">
                 { props.timestamp }
