@@ -51,11 +51,16 @@ class App extends React.Component{
     }
   }
   //Working on it.
-  handleLikes = (event) => {
-    this.setState(() => {
-      likes: this.likes++;
+  handleLikes = (text) => {
+    const index = this.state.userPosts.findIndex(userPosts => userPosts.text === text);
+    const selected = this.state.userPosts[index];
+    const nextUserPosts = [ ...this.state.userPosts ];
+    nextUserPosts[index] = {
+      ...selected, likes: selected.likes + 1
+    };
+    this.setState({
+      userPosts: nextUserPosts
     });
-    console.log("Clicked");
   }
   render() {
     // XXX: Get all names and texts here.
