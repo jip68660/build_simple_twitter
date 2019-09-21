@@ -1,7 +1,8 @@
 import React from 'react';
-import StatusList from './components/StatusList';
-import StatusInput from './components/StatusInput';
-// import { Router } from 'react-router-dom';
+import Home from './components/Home';
+import About from './components/About';
+import Signup from './components/Signup';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class App extends React.Component{
 
@@ -13,20 +14,16 @@ class App extends React.Component{
       handle: "",
       text: "",
       likes: 0,
-      userPosts: []
+      password: "",
+      userPosts: [],
+      users: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleKeypress = this.handleKeypress.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.handleLikes = this.handleLikes.bind(this);
   }
 
-
-  handleChange = (input, event) => {
-    this.setState({
-      [input]: event.target.value
-    });
-  }  
   handleSubmit = (event) => {
     event.preventDefault();
     
@@ -43,13 +40,11 @@ class App extends React.Component{
         userPosts: prevState.userPosts.concat([newUserPost]),
       }
     });
-    console.log(this.state);
   }
-  handleKeypress = (event) => {
-    if (event.key === "Enter") {
-      this.handleSubmit(event);
-    }
+  handleSignup = (event) => {
+    event.preventDefault();
   }
+  
   //Working on it.
   handleLikes = (text) => {
     const index = this.state.userPosts.findIndex(userPosts => userPosts.text === text);
@@ -62,23 +57,64 @@ class App extends React.Component{
       userPosts: nextUserPosts
     });
   }
+  handleChange = (input, event) => {
+    console.log("reached");
+    this.setState({
+      [input]: event.target.value
+    });
+  }  
+ 
   render() {
-    // XXX: Get all names and texts here.
-    // const name = "Jihoon Shin";
-    // const text = "Hello, world!";
-
-    // const userPosts = [
-    //   { "name" : "jihoon", "handle":"j123", "text": "Hello", "timestamp": dateFormat},
-    //   { "name" : "jeong", "handle":"jg123", "text": "Hello bye", "timestamp": dateFormat},
-    //   { "name" : "june", "handle": "kim1111", "text": "Hello yooooo", "timestamp": dateFormat }
-    // ];
-
     return(
-      <div>
-        <StatusInput nameInput={ this.state.name } handleInput={ this.state.handle } textInput={ this.state.text } handleChange={ this.handleChange } handleSubmit={ this.handleSubmit } handleKeypress={ this.handleKeypress }/>
-        <StatusList userPosts={ this.state.userPosts } handleLikes={ this.handleLikes }/>
-      </div>
-
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+              <li>
+                <Link to="/signup">Sign-up</Link>
+              </li>
+            </ul>
+          </nav>
+      
+          <Route 
+            path="/"
+            exact 
+            render={() => {
+              return ( 
+                <Home 
+                  text={ this.state.text }
+                  handleChange={ this.handleChange } 
+                  handleSubmit={ this.handleSubmit } 
+                  userPosts={ this.state.userPosts } 
+                  handleLikes={ this.handleLikes } 
+                /> 
+              );
+             }
+            } 
+          />
+          <Route path="/about" component={ About } />
+          <Route 
+            path="/signup" 
+            render={() => {
+              return(
+                <Signup 
+                  name={ this.state.name } 
+                  handle={ this.state.handle }
+                  handleChange={ this.handleChange } 
+                  handleSubmit={ this.handleSubmit }  
+                />
+              );
+             }
+            }
+          />
+        </div>
+      </Router>
     );
   }
 
