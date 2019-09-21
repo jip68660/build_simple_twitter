@@ -8,12 +8,16 @@ class Signup extends React.Component {
 
         this.handleName = this.handleName.bind(this);
         this.handleHandle = this.handleHandle.bind(this);
+        this.handlePassword = this.handlePassword.bind(this);
     }
     handleName(event) {
         this.props.handleChange("name", event);
     }
     handleHandle(event) {
         this.props.handleChange("handle", event);
+    }
+    handlePassword(event) {
+        this.props.handleChange("password", event);
     }
     render() {
         return(
@@ -33,10 +37,18 @@ class Signup extends React.Component {
                         name={ "handle" }
                         handleChange={ this.handleHandle }
                     />
+                    <InputFormat
+                        className={ "getPassword" }
+                        placeholder={ "Password" }
+                        value={ this.props.password }
+                        name={ "password" }
+                        handleChange={ this.handlePassword }
+                    />
+
                 </div>
                 <ButtonFormat 
                     className={ "submitButton save" } 
-                    handleSubmit={ this.props.handleSubmit } 
+                    handleSubmit={ this.props.handleSignup } 
                     buttonValue={ "Save"}
                 /> 
             </div>

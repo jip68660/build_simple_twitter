@@ -37,12 +37,24 @@ class App extends React.Component{
         name: "",
         handle: "",
         text: "",
-        userPosts: prevState.userPosts.concat([newUserPost]),
+        userPosts: prevState.userPosts.concat([newUserPost])
       }
     });
   }
   handleSignup = (event) => {
     event.preventDefault();
+  
+    this.setState((prevState) => {
+      const newUser = { "name":prevState.name, "handle":prevState.handle, "password":prevState.password };
+      console.log(this.state.users);
+      return {
+        ...prevState,
+        name: "",
+        handle: "",
+        password: "",
+        users: prevState.users.concat([newUser])
+      }
+    });
   }
   
   //Working on it.
@@ -58,7 +70,6 @@ class App extends React.Component{
     });
   }
   handleChange = (input, event) => {
-    console.log("reached");
     this.setState({
       [input]: event.target.value
     });
@@ -106,8 +117,9 @@ class App extends React.Component{
                 <Signup 
                   name={ this.state.name } 
                   handle={ this.state.handle }
+                  password={ this.state.password }
                   handleChange={ this.handleChange } 
-                  handleSubmit={ this.handleSubmit }  
+                  handleSignup={ this.handleSignup }  
                 />
               );
              }
