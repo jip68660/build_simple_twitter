@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 const sqlite3 = require('sqlite3').verbose();
 
-let db = new sqlite3.Database(':memory', (err) => {
+let db = new sqlite3.Database('./chinook.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     return console.error(err.message);
   }
@@ -18,31 +18,38 @@ app.get('/text', (req, res) => {
   var data = JSON.stringify(text)
   res.json(text)
 })
+app.post('/signup', (req,res) => {
+  db.serialize(() => {
+    db.each(`INSERT into users VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}')`, (err) => {
+      if (err) {
+        console.error(err.message);
+      }
+      console.log("Inserted");
+    });
+  });
+});
 
-const fs = require('fs')
+app.post('/login', (req,res) => {
+  db.serialize(() => {
+    db.each(`SELECT password, name FROM users where username='${req.body.username}' `, (err,row) => {
+      
+      if (err) {
+        console.error(err.message);
+      }
+      var correctPassword = row.password;
+      var password = req.body.password;
+      if (password === correctPassword) {
+        var userName = row.name;
+        res.json({'name': userName});
+      }
+      else {
+        res.json({});
+      }
 
-fs.writeFile("/tmp/text", "hello there", function(err) {
-  if(err) {
-    return console.log(err); 
-  }
-  console.log("the file was saved");
-})
-
-app.post('/text', (req,res) => {
-  /// in the DB.
-  const ultimatePassword = "hello123";
-  const ultimateName = "JH";
-
-  var username = req.body.username
-  console.log(req.body)
-  var password = req.body.password
-  if (ultimatePassword === password) {
-    res.json({'name':ultimateName})
-  }
-  else {
-    res.json({})
-  }
-})
+      console.log('Selected');
+    });
+  });
+});
 
 /// POST -> "yahdkfjkdjf" 
 /// POST <- "{"text": "hello"}
@@ -53,9 +60,9 @@ const fetchPromise = fetch("https://ghibliapi.herokuapp.com/people");
 //   console.log(response);
 // });
 
-db.close((err) => {
-  if (err) {
-    return console.error(err.message);
-  }
-  console.log("Close the database connection.");
-});
+// db.close((err) => {
+//   if (err) {
+//     return console.error(err.message);
+//   }
+//   console.log("Close the database connection.");
+// });
