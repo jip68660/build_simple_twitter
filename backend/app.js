@@ -15,7 +15,7 @@ const fs = require('fs')
 
 fs.writeFile("/tmp/text", "hello there", function(err) {
   if(err) {
-    return console.log(err);
+    return console.log(err); 
   }
   console.log("the file was saved");
 })
