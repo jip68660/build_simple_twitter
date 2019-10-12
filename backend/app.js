@@ -13,7 +13,7 @@ app.get('/text', (req, res) => {
 
 const fs = require('fs')
 
-fs.writeFile("./temp/text", "hello there", function(err) {
+fs.writeFile("/tmp/text", "hello there", function(err) {
   if(err) {
     return console.log(err);
   }
