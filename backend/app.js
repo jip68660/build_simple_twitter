@@ -2,6 +2,14 @@ const express = require('express')
 const fetch = require('node-fetch')
 const app = express()
 const port = 3000
+const sqlite3 = require('sqlite3').verbose();
+
+let db = new sqlite3.Database(':memory', (err) => {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log('Connected to the in-memory SQlite database.');
+});
 
 app.use(express.json())
 app.get('/', (req, res) => res.send('Hello World!'))
@@ -34,16 +42,20 @@ app.post('/text', (req,res) => {
   else {
     res.json({})
   }
-
 })
 
 /// POST -> "yahdkfjkdjf" 
 /// POST <- "{"text": "hello"}
-
-
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 const fetchPromise = fetch("https://ghibliapi.herokuapp.com/people");
 // fetchPromise.then(response => {
 //   console.log(response);
 // });
+
+db.close((err) => {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log("Close the database connection.");
+});
