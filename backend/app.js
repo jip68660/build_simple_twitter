@@ -29,7 +29,11 @@ app.post('/signup', (req,res) => {
   });
 });
 
+<<<<<<< HEAD
 app.post('/login', (req,res) => {
+=======
+app.post('/text', (req,res) => {
+>>>>>>> ce9084139180e9decd1337bc468c5d8875365866
   db.serialize(() => {
     db.each(`SELECT password, name FROM users where username='${req.body.username}' `, (err,row) => {
       
@@ -49,6 +53,23 @@ app.post('/login', (req,res) => {
       console.log('Selected');
     });
   });
+<<<<<<< HEAD
+=======
+
+  /// in the DB.
+  // const ultimatePassword = "hello123";
+  // const ultimateName = "JH";
+
+  // var username = req.body.username
+  // console.log(req.body)
+  // var password = req.body.password
+  // if (ultimatePassword === password) {
+  //   res.json({'name':ultimateName})
+  // }
+  // else {
+  //   res.json({})
+  // }
+>>>>>>> ce9084139180e9decd1337bc468c5d8875365866
 });
 
 /// POST -> "yahdkfjkdjf" 
