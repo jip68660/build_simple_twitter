@@ -20,34 +20,41 @@ app.get('/text', (req, res) => {
 });
 
 app.post('/signup', (req,res) => {
-  db.serialize(() => {
-    db.each(`INSERT into users VALUES ('${req.body.username}', '${req.body.password}', '${req.body.name}')`, (err) => {
+  db.serialize(() => {      
+    db.run(`INSERT INTO users VALUES ('${req.body.username}','${req.body.password}','${req.body.name}')`, (err) => {
       if (err) {
         console.error(err.message);
       }
+      res.json({'name': req.body.name});
       console.log("Inserted");
-    });
+    });  
   });
 });
 
 app.post('/login', (req,res) => {
   db.serialize(() => {
-    db.each(`SELECT password, name FROM users where username='${req.body.username}' `, (err,row) => {
-      
+    db.each(`SELECT password, name, count(*) as count FROM users where username='${req.body.username}' `, (err,row) => {      
       if (err) {
         console.error(err.message);
       }
-      var correctPassword = row.password;
-      var password = req.body.password;
-      if (password === correctPassword) {
-        var userName = row.name;
-        res.json({'name': userName});
+
+      if (row.count == 0) {
+        res.json({});
+        console.log("No selection");
       }
       else {
-        res.json({});
-      }
-
-      console.log('Selected');
+        console.log(row.password + "--" + row.name);
+        var correctPassword = row.password;
+        var password = req.body.password;
+        if (password === correctPassword) {
+          var userName = row.name;
+          res.json({'name': userName});
+        }
+        else {
+          res.json({});
+        }
+        console.log('Selected');     
+      } 
     });
   });
 });
