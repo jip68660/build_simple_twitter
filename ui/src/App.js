@@ -4,23 +4,36 @@ import About from './components/About';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
+import useHistory from 'use-history';
+import useLocation from 'wouter';
 import ButtonFormat from './components/ButtonFormat';
 
 const authCheck = {
   isLogIn: false
 };
 
-const AuthButton = withRouter(
-  (props, { history }) =>
-    authCheck.isLogIn ? (
-      <p>
-        Welcome! { props.currUser.name }
-        <ButtonFormat className={ "submitButton logout" } handleSubmit={ props.handleSubmit } buttonValue = {"Log-out"} />
-      </p>
-    ) : (
-      <p>You are not logged in.</p>
-    )
-);
+function AuthButton(props) {
+  let history = useHistory();
+  
+  return authCheck.isLogin ? (
+    <p>
+      Welcome! { props.currUser.name } 
+      <ButtonFormat className={ "submitButton logout" } handleSubmit={ props.handleSubmit } buttonValue = {"Log-out"} />
+    </p>
+  ) : (
+    <p>You are not logged in.</p>
+  )
+};
+
+// const AuthButton = withRouter(
+//   (props) =>{
+//     let history = useHistory();
+//     history.push("/");
+//     authCheck.isLogIn ? (
+//       <p>
+//         Welcome! { props.currUser.name }
+        
+// );
 
 class App extends React.Component{
   constructor(props) {
@@ -65,9 +78,10 @@ class App extends React.Component{
     }
   }
   handleSignup = (event) => {
+    console.log("reached");
     authCheck.isLogin = true;
     event.preventDefault();
-    
+    let history = useHistory();
     this.setState((prevState) => {
       const newUser = { "name":prevState.name, "handle":prevState.handle, "password":prevState.password };
       return {
@@ -79,16 +93,17 @@ class App extends React.Component{
         users: prevState.users.concat([newUser])
       }
     });
+    history.push("/");
     console.log(this.state);
   }
   handleLogin = (event) => {
-    authCheck.isLogIn = true;
     event.preventDefault();
     const index = this.state.users.findIndex(user => (user.handle === this.state.handle) && (user.password === this.state.password));
     if (index === -1) {
       alert("Fail to Log-in");
     } 
     else {
+      authCheck.isLogIn = true;
       const selected = this.state.users[index];
       this.setState((prevState) => {
         return {
@@ -136,7 +151,7 @@ class App extends React.Component{
     return(
       <Router>
         <div>
-          <AuthButton currUser = { this.state.currUser } handleSubmit = { this.handleLogout }/>
+          {/* <AuthButton currUser = { this.state.currUser } handleSubmit = { this.handleLogout }/> */}
           {/* <ButtonFormat className={ "submitButton logout" } handleSubmit={ this.handleLogout } buttonValue = {"Log-out"}  /> */}
           <nav>
             <ul>
