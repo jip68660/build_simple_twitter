@@ -28,13 +28,16 @@ app.post('/session', (req,res) => {
     let handle = sessionToHandle[req.body.sessionkey];
     var name = ""
     db.each(`SELECT name FROM users where username='${handle}' `, (err, row) => {
+      console.log("select name");
       if (err) {
         console.error(err.message);
       }
       else {
         name = row.name;
+        console.log("success");
       }
     });
+    console.log("Return name and handle");
     res.json({'name': name, 'handle': handle})
   });
 });

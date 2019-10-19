@@ -13,8 +13,9 @@ class Home extends React.Component{
       }        
     });
     fetchPromise.then(response => {
-      const json = response.json();
-      this.props.handleSet(json.name, json.handle);
+      response.json().then((data) => {
+        this.props.handleSet(data.name, data.handle)
+      });
     });
   }
   
