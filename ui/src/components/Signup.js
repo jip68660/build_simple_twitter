@@ -22,15 +22,13 @@ class Signup extends React.Component {
     }
     handleSubmit(event) {
         // console.log("entering handleSubmit");
-        let history = useHistory();
-        console.log(history);   
-
         this.props.handleSignup(event);
-        this.props.fakeAuth.authenticate(() => history.push("/"));
-        console.log(this.props.history);
         // this.props.history.push("/");
+        
     }
-    render() {
+
+    
+       render() {
         return(
             <div className="inputTemplate">
                 <div className="topContent">

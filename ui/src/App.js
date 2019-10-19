@@ -19,7 +19,8 @@ class App extends React.Component{
       password: "",
       userPosts: [],
       users: [],
-      currUser: null
+      currUser: null,
+      msg: ""
     };
     this.check = false;
     this.handleChange = this.handleChange.bind(this);
@@ -28,6 +29,7 @@ class App extends React.Component{
     this.handleLikes = this.handleLikes.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
   }
 
   
@@ -53,20 +55,17 @@ class App extends React.Component{
     }
   }
   handleSignup = (event) => {
-    console.log("reached");
-    event.preventDefault();
-    this.setState((prevState) => {
-      const newUser = { "name":prevState.name, "handle":prevState.handle, "password":prevState.password };
-      return {
-        ...prevState,
-        name: "",
-        handle: "",
-        password: "",
-        currUser: newUser,
-        users: prevState.users.concat([newUser])
-      }
+
+    const fetchPromise = fetch("http://35.226.157.89/signup", {
+      method: 'POST',
+      body: JSON.stringfy({ username: this.props.handle, password: this.props.password, name: this.props.name }),
+      headers: {
+        'Content-Type': 'application/json'
+      }        
     });
-    console.log(this.state);
+    fetchPromise.then(response => {
+      const json = response.json();
+    });
   }
   handleLogin = (event) => {
     event.preventDefault();
@@ -116,7 +115,23 @@ class App extends React.Component{
       [input]: event.target.value
     });
   }  
+  handleMessage = (text) => {
+    this.setState({
+      msg: text
+    });
+  }
  
+  // const fetchPromise = fetch("https://ghibliapi.herokuapp.com/people");
+// fetchPromise.then(response => {
+//   console.log(response);
+// });
+
+// db.close((err) => {
+//   if (err) {
+//     return console.error(err.message);
+//   }
+//   console.log("Close the database connection.");
+// });
   render() {
     return(
       <Router>
@@ -151,6 +166,8 @@ class App extends React.Component{
                   userPosts={ this.state.userPosts } 
                   handleLikes={ this.handleLikes }
                   handleLogout={ this.handleLogout } 
+                  msg = { this.state.msg }
+                  handleMessage = { this.handleMessage }
                 /> 
               );
              }
