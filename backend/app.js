@@ -26,8 +26,9 @@ app.post('/session', (req,res) => {
   console.log('handling /session');
   db.serialize(() => {
     let handle = sessionToHandle[req.body.sessionkey];
+    console.log("using handle: " + handle);
     var name = ""
-    db.each(`SELECT name FROM users where username='${handle}' `, (err, row) => {
+    db.each(`SELECT name FROM users WHERE username='${handle}' `, (err, row) => {
       console.log("select name");
       if (err) {
         console.error(err.message);
@@ -35,10 +36,10 @@ app.post('/session', (req,res) => {
       else {
         name = row.name;
         console.log("success");
+        console.log("Return name and handle");
+        res.json({'name': name, 'handle': handle})
       }
     });
-    console.log("Return name and handle");
-    res.json({'name': name, 'handle': handle})
   });
 });
 
