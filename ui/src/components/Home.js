@@ -1,32 +1,24 @@
 import React from 'react';
 import StatusList from './StatusList';
 import StatusInput from './StatusInput';
+import { fetchToServer } from '../util'
 
 class Home extends React.Component{
   componentDidMount() {
     const sessionkeyInput = localStorage.getItem("sessionkey");
     if (sessionkeyInput !== undefined) {
-      const sessionkeyInput = localStorage.getItem("sessionkey");
-      const fetchPromise = fetch("http://35.226.157.89/session", {
-        method: 'POST',
-        body: JSON.stringify({ sessionkey: sessionkeyInput }),
-        headers: {
-          'Content-Type': 'application/json'
-        }        
-      });
-      fetchPromise.then(response => {
-        response.json().then((data) => {
-          this.props.handleSet(data.name, data.handle)
-        });
-      });
+      fetchToServer(
+        "session", 
+        { sessionkey: sessionkeyInput }, 
+        (data) => {this.props.handleSet(data.name, data.handle)}
+      );
     }
   }
   
   render() {
-
+    console.log('rending Home.js');
     return(
        <div>
-         <p>{this.props.msg}</p>
           <StatusInput
             textInput={ this.props.text }
             handleChange={ this.props.handleChange }

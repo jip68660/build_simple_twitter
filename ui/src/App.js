@@ -6,10 +6,10 @@ import Login from './components/Login';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
 import ButtonFormat from './components/ButtonFormat';
 import AuthButton from './components/AuthButton';
+import { fetchToServer } from './util';
 
 class App extends React.Component{
   constructor(props) {
-    // Done this automatically if "constructor" is not used.
     super(props);
     this.state = {
       name: "",
@@ -17,12 +17,9 @@ class App extends React.Component{
       text: "",
       likes: 0,
       password: "",
-      userPosts: [],
-      users: [],
-      currUser: null,
-      msg: ""
+      userPosts: []
     };
-    this.check = false;
+    this.isLogIn = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -32,20 +29,24 @@ class App extends React.Component{
     this.handleSet = this.handleSet.bind(this);
   }
 
-  
-
   handleSubmit = (event) => {
     event.preventDefault();
     
     var now = new Date();
     var dateFormat = (now.getMonth()+1) + "/" + now.getDate();
 
-    if (this.state.currUser === null) {
+    if (this.state.handle === null) {
       alert("Please Log-in");
     }
     else {
       this.setState((prevState)=>{
-        const newUserPost = { "name" : prevState.currUser.name, "handle": prevState.currUser.handle, "text": prevState.text, "likes": prevState.likes, "timestamp": dateFormat };
+        const newUserPost = {
+          "name" : prevState.name, 
+          "handle": prevState.handle, 
+          "text": prevState.text, 
+          "likes": prevState.likes, 
+          "timestamp": dateFormat 
+        };
         return {
           ...prevState,
           text: "",
@@ -55,37 +56,18 @@ class App extends React.Component{
     }
   }
   handleSignup = (event) => {
-    console.log("handlneSignup");
-    console.log(event);
-    const fetchPromise = fetch("http://35.226.157.89/signup", {
-      method: 'POST',
-      body: JSON.stringify({ username: this.props.handle, password: this.props.password, name: this.props.name }),
-      headers: {
-        'Content-Type': 'application/json'
-      }        
-    });
-    fetchPromise.then(response => {
-      response.json().then((data) => {
-        console.log(data);
-        console.log(`saving to localstorage: ${data.sessionkey}`);
-        localStorage.setItem('sessionkey', data.sessionkey);
-        console.log("success");
-      });
-    });
-
+    fetchToServer(
+      "signup", 
+      { username: this.state.handle, password: this.state.password, name: this.state.name },
+      (data) => localStorage.setItem('sessionkey', data.sessionkey)
+    );
   }
   handleLogin = (event) => {
-    const fetchPromise = fetch("http://35.226.157.89/login", {
-      method: 'POST',
-      body: JSON.stringify({ username: this.props.handle, password: this.props.password }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    fetchPromise.then(response => {
-      const json = response.json();
-      localStorage.setItem('sessionkey', json.sessionkey);
-    });
+    fetchToServer(
+      "login", 
+      { username: this.state.handle, password: this.state.password },
+      (data) => localStorage.setItem('sessionkey', data.sessionkey)
+    );
   }
   handleLogout = (event) => {
     console.log("clicked");
@@ -121,23 +103,11 @@ class App extends React.Component{
       handle: handle
     });
   }
- 
-  // const fetchPromise = fetch("https://ghibliapi.herokuapp.com/people");
-// fetchPromise.then(response => {
-//   console.log(response);
-// });
-
-// db.close((err) => {
-//   if (err) {
-//     return console.error(err.message);
-//   }
-//   console.log("Close the database connection.");
-// });
   render() {
     return(
       <Router>
         <div>
-          <AuthButton check = { this.check }/>
+          <AuthButton check = { this.isLogIn }/>
           <nav>
             <ul>
               <li>
@@ -167,7 +137,6 @@ class App extends React.Component{
                   userPosts={ this.state.userPosts } 
                   handleLikes={ this.handleLikes }
                   handleLogout={ this.handleLogout } 
-                  msg = { this.state.msg }
                   handleSet = { this.handleSet }
                 /> 
               );

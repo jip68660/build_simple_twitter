@@ -15,12 +15,13 @@ let db = new sqlite3.Database('./chinook.db', sqlite3.OPEN_READWRITE, (err) => {
 
 app.use(express.json())
 app.use(cors())
-app.get('/', (req, res) => res.send('Hello World!'))
-app.get('/text', (req, res) => {
-  var text= {'text':"hello"}
-  var data = JSON.stringify(text)
-  res.json(text)
-});
+
+// shared functions.
+function createSessionkey(username) {
+  const sessionkey = Math.floor(Math.random(0, 100));
+  sessionToHandle[sessionkey] = username;
+  return sessionkey;
+}
 
 app.post('/session', (req,res) => {
   console.log('handling /session');
@@ -31,17 +32,14 @@ app.post('/session', (req,res) => {
       return
     }
     console.log("using handle: " + handle);
-    var name = ""
     db.each(`SELECT name FROM users WHERE username='${handle}' `, (err, row) => {
-      console.log("select name");
+      console.log("selecting name");
       if (err) {
         console.error(err.message);
       }
       else {
-        name = row.name;
-        console.log("success");
-        console.log("Return name and handle");
-        res.json({'name': name, 'handle': handle})
+        console.log("returning name and handle");
+        res.json({'name': row.name, 'handle': handle})
       }
     });
   });
@@ -54,13 +52,9 @@ app.post('/signup', (req,res) => {
       if (err) {
         console.error(err.message);
       }
-      const sessionkey = Math.floor(Math.random() * 100000);
-      console.log(sessionkey);
-      sessionToHandle[sessionkey] = req.body.username;
-      console.log(req.body.username);
-      console.log(sessionToHandle);
+      console.log("inserting a row in users table");
+      const sessionkey = createSessionkey(req.body.username);
       res.json({'sessionkey': sessionkey});
-      console.log("Inserted");
     });  
   });
 });
@@ -72,58 +66,21 @@ app.post('/login', (req,res) => {
       if (err) {
         console.error(err.message);
       }
-
       if (row.count == 0) {
-        res.json({});
-        console.log("No selection");
+        res.json({"error":"could not find given user"});
       }
       else {
-        console.log(row.password + "--" + row.name);
-        var correctPassword = row.password;
-        var password = req.body.password;
-        if (password === correctPassword) {
-          const sessionkey = Math.floor(Math.random(0, 100));
-          sessionToHandle[sessionkey] = req.body.username;
-          res.json({'sessionkey': sessionkey});
-          sessionToHandle[sessionkey] = req.body.username;
+        console.log("comparing password");
+        if (req.body.password === row.password) {
+          const sessionkey = createSessionkey(req.body.username);
           res.json({'sessionkey': sessionkey});
         }
         else {
-          res.json({});
-        }
-        console.log('Selected');     
+          res.json({"error":"wrong password"});
+        }     
       } 
     });
   });
 });
 
-app.get('/users', (req, res) => {
-  console.log('handling /users');
-  db.serialize(() => {
-    let users = [];
-    db.each(`SELECT name, username, count(*) as count FROM users;`, (err,row) => {      
-      if (err) {
-        console.error(err.message);
-      }
-      if (row.count == 0) {
-        res.json({'error': 'no users registered'});
-        console.log("No selection");
-      }
-      else {
-        user = {
-          'name': row.name,
-          'username': row.username,
-        }
-        console.log('new user has created');
-        users = users.concat(user);
-      } 
-    });
-    res.json(users);
-    console.log('success');     
-  });
-});
-
-/// POST -> "yahdkfjkdjf" 
-/// POST <- "{"text": "hello"}
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
