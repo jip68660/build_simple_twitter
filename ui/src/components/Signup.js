@@ -21,14 +21,10 @@ class Signup extends React.Component {
         this.props.handleChange("password", event);
     }
     handleSubmit(event) {
-        // console.log("entering handleSubmit");
         this.props.handleSignup(event);
-        // this.props.history.push("/");
-        
     }
-
     
-       render() {
+    render() {
         return(
             <div className="inputTemplate">
                 <div className="topContent">

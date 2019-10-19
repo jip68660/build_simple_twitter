@@ -4,6 +4,7 @@ const app = express()
 const port = 3000
 const cors = require('cors')
 const sqlite3 = require('sqlite3').verbose();
+const sessionToHandle = {}
 
 let db = new sqlite3.Database('./chinook.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
@@ -21,13 +22,30 @@ app.get('/text', (req, res) => {
   res.json(text)
 });
 
+app.post('/session', (req,res) => {
+  let handle = sessionToHandle[req.body.sessionkey]
+  db.serialize(() => {
+    db.each(`SELECT name FROM users where username='${handle}' `, (err, row) => {
+      if (err) {
+        console.error(err.message);
+      }
+      else {
+        var name = row.name;
+        res.json({'name': name, 'handle': handle})
+      }
+    })
+  })
+})
+
 app.post('/signup', (req,res) => {
   db.serialize(() => {      
     db.run(`INSERT INTO users VALUES ('${req.body.username}','${req.body.password}','${req.body.name}')`, (err) => {
       if (err) {
         console.error(err.message);
       }
-      res.json({'name': req.body.name});
+      const sessionkey = Math.floor(Math.random(0, 100));
+      sessionToHandle[sessionkey] = req.body.username;
+      res.json({'sessionkey': sessionkey});
       console.log("Inserted");
     });  
   });
@@ -49,8 +67,9 @@ app.post('/login', (req,res) => {
         var correctPassword = row.password;
         var password = req.body.password;
         if (password === correctPassword) {
-          var userName = row.name;
-          res.json({'name': userName});
+          const sessionkey = Math.floor(Math.random(0, 100));
+          sessionToHandle[sessionkey] = req.body.username;
+          res.json({'sessionkey': sessionkey});
         }
         else {
           res.json({});

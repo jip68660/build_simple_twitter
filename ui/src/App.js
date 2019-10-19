@@ -29,7 +29,7 @@ class App extends React.Component{
     this.handleLikes = this.handleLikes.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.handleMessage = this.handleMessage.bind(this);
+    this.handleSet = this.handleSet.bind(this);
   }
 
   
@@ -55,7 +55,6 @@ class App extends React.Component{
     }
   }
   handleSignup = (event) => {
-
     const fetchPromise = fetch("http://35.226.157.89/signup", {
       method: 'POST',
       body: JSON.stringfy({ username: this.props.handle, password: this.props.password, name: this.props.name }),
@@ -65,27 +64,22 @@ class App extends React.Component{
     });
     fetchPromise.then(response => {
       const json = response.json();
+      localStorage.setItem('sessionkey', json.sessionkey);
     });
+
   }
   handleLogin = (event) => {
-    event.preventDefault();
-    const index = this.state.users.findIndex(user => (user.handle === this.state.handle) && (user.password === this.state.password));
-    if (index === -1) {
-      alert("Fail to Log-in");
-    } 
-    else {
-      const selected = this.state.users[index];
-      this.setState((prevState) => {
-        return {
-          ...prevState,
-          name: "",
-          handle: "",
-          password: "",
-          currUser: selected
-        }
-      });
-    }
-    console.log(this.state);
+    const fetchPromise = fetch("http://35.226.157.89/login", {
+      method: 'POST',
+      body: JSON.stringfy({ username: this.props.handle, password: this.props.password }),
+      headers: {
+        'Content-Type': 'applciation/json'
+      }
+    });
+    fetchPromise.then(response => {
+      const json = response.json();
+      localStorage.setItem('sessionkey', json.sessionkey);
+    });
   }
   handleLogout = (event) => {
     console.log("clicked");
@@ -115,9 +109,10 @@ class App extends React.Component{
       [input]: event.target.value
     });
   }  
-  handleMessage = (text) => {
+  handleSet = (name, handle) => {
     this.setState({
-      msg: text
+      name: name,
+      handle: handle
     });
   }
  
@@ -167,7 +162,7 @@ class App extends React.Component{
                   handleLikes={ this.handleLikes }
                   handleLogout={ this.handleLogout } 
                   msg = { this.state.msg }
-                  handleMessage = { this.handleMessage }
+                  handleSet = { this.handleSet }
                 /> 
               );
              }
