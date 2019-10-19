@@ -53,6 +53,8 @@ app.post('/signup', (req,res) => {
       const sessionkey = Math.floor(Math.random() * 100000);
       console.log(sessionkey);
       sessionToHandle[sessionkey] = req.body.username;
+      console.log(req.body.username);
+      console.log(sessionToHandle);
       res.json({'sessionkey': sessionkey});
       console.log("Inserted");
     });  

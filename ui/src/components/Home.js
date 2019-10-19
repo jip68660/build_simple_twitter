@@ -16,7 +16,7 @@ class Home extends React.Component{
       response.json().then((data) => {
         this.props.handleSet(data.name, data.handle)
       });
-    });
+    });``
   }
   
   render() {
