@@ -2,6 +2,7 @@ const express = require('express')
 const fetch = require('node-fetch')
 const app = express()
 const port = 3000
+const cors = require('cors')
 const sqlite3 = require('sqlite3').verbose();
 
 let db = new sqlite3.Database('./chinook.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -12,6 +13,7 @@ let db = new sqlite3.Database('./chinook.db', sqlite3.OPEN_READWRITE, (err) => {
 });
 
 app.use(express.json())
+app.use(cors())
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/text', (req, res) => {
   var text= {'text':"hello"}
@@ -61,16 +63,5 @@ app.post('/login', (req,res) => {
 
 /// POST -> "yahdkfjkdjf" 
 /// POST <- "{"text": "hello"}
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-const fetchPromise = fetch("https://ghibliapi.herokuapp.com/people");
-// fetchPromise.then(response => {
-//   console.log(response);
-// });
-
-// db.close((err) => {
-//   if (err) {
-//     return console.error(err.message);
-//   }
-//   console.log("Close the database connection.");
-// });
