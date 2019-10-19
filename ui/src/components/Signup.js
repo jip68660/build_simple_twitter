@@ -1,7 +1,7 @@
 import React from 'react';
 import InputFormat from './InputFormat';
 import ButtonFormat from './ButtonFormat';
-
+import useHistory from 'use-history';
 class Signup extends React.Component {
     constructor(props) {
         super(props);
@@ -9,6 +9,7 @@ class Signup extends React.Component {
         this.handleName = this.handleName.bind(this);
         this.handleHandle = this.handleHandle.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleName(event) {
         this.props.handleChange("name", event);
@@ -18,6 +19,16 @@ class Signup extends React.Component {
     }
     handlePassword(event) {
         this.props.handleChange("password", event);
+    }
+    handleSubmit(event) {
+        // console.log("entering handleSubmit");
+        let history = useHistory();
+        console.log(history);   
+
+        this.props.handleSignup(event);
+        this.props.fakeAuth.authenticate(() => history.push("/"));
+        console.log(this.props.history);
+        // this.props.history.push("/");
     }
     render() {
         return(
@@ -48,8 +59,10 @@ class Signup extends React.Component {
                 </div>
                 <ButtonFormat 
                     className={ "submitButton save" } 
-                    handleSubmit={ this.props.handleSignup } 
-                    buttonValue={ "Save"}
+                    handleSubmit={ this.props.handleSingUp } 
+                    buttonValue={ "Save" }
+                    hyperlink= { "/" }
+
                 /> 
             </div>
         );

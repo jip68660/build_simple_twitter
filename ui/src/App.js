@@ -4,36 +4,8 @@ import About from './components/About';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
-import useHistory from 'use-history';
-import useLocation from 'wouter';
 import ButtonFormat from './components/ButtonFormat';
-
-const authCheck = {
-  isLogIn: false
-};
-
-function AuthButton(props) {
-  let history = useHistory();
-  
-  return authCheck.isLogin ? (
-    <p>
-      Welcome! { props.currUser.name } 
-      <ButtonFormat className={ "submitButton logout" } handleSubmit={ props.handleSubmit } buttonValue = {"Log-out"} />
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
-  )
-};
-
-// const AuthButton = withRouter(
-//   (props) =>{
-//     let history = useHistory();
-//     history.push("/");
-//     authCheck.isLogIn ? (
-//       <p>
-//         Welcome! { props.currUser.name }
-        
-// );
+import AuthButton from './components/AuthButton';
 
 class App extends React.Component{
   constructor(props) {
@@ -49,6 +21,7 @@ class App extends React.Component{
       users: [],
       currUser: null
     };
+    this.check = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -56,6 +29,8 @@ class App extends React.Component{
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
+
+  
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -79,9 +54,7 @@ class App extends React.Component{
   }
   handleSignup = (event) => {
     console.log("reached");
-    authCheck.isLogin = true;
     event.preventDefault();
-    let history = useHistory();
     this.setState((prevState) => {
       const newUser = { "name":prevState.name, "handle":prevState.handle, "password":prevState.password };
       return {
@@ -93,7 +66,6 @@ class App extends React.Component{
         users: prevState.users.concat([newUser])
       }
     });
-    history.push("/");
     console.log(this.state);
   }
   handleLogin = (event) => {
@@ -103,7 +75,6 @@ class App extends React.Component{
       alert("Fail to Log-in");
     } 
     else {
-      authCheck.isLogIn = true;
       const selected = this.state.users[index];
       this.setState((prevState) => {
         return {
@@ -118,7 +89,6 @@ class App extends React.Component{
     console.log(this.state);
   }
   handleLogout = (event) => {
-    authCheck.isLogIn = false;
     console.log("clicked");
     event.preventDefault();
     this.setState((prevState) => {
@@ -151,8 +121,7 @@ class App extends React.Component{
     return(
       <Router>
         <div>
-          {/* <AuthButton currUser = { this.state.currUser } handleSubmit = { this.handleLogout }/> */}
-          {/* <ButtonFormat className={ "submitButton logout" } handleSubmit={ this.handleLogout } buttonValue = {"Log-out"}  /> */}
+          <AuthButton check = { this.check }/>
           <nav>
             <ul>
               <li>
@@ -198,6 +167,7 @@ class App extends React.Component{
                   password={ this.state.password }
                   handleChange={ this.handleChange } 
                   handleSignup={ this.handleSignup }  
+                  fakeAuth={ this.fakeAuth }
                 />
               );
              }
@@ -212,6 +182,7 @@ class App extends React.Component{
                   password={ this.state.password }
                   handleChange={ this.handleChange } 
                   handleLogin={ this.handleLogin }  
+                  fakeAuth={ this.fakeAuth }
                 />
               );
              }

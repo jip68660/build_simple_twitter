@@ -42,7 +42,9 @@ class Login extends React.Component {
                     className={ "submitButton save" } 
                     handleSubmit={ this.props.handleLogin } 
                     buttonValue={ "Login" }
+                    hyperlink={"/"}
                 /> 
+                <a href="/signup">Signup</a>
             </div>
         );
      
