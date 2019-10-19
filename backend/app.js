@@ -23,6 +23,7 @@ app.get('/text', (req, res) => {
 });
 
 app.post('/session', (req,res) => {
+  console.log('handling /session');
   let handle = sessionToHandle[req.body.sessionkey];
   db.serialize(() => {
     db.each(`SELECT name FROM users where username='${handle}' `, (err, row) => {
@@ -38,12 +39,14 @@ app.post('/session', (req,res) => {
 });
 
 app.post('/signup', (req,res) => {
+  console.log('handling /signup');
   db.serialize(() => {      
     db.run(`INSERT INTO users VALUES ('${req.body.username}','${req.body.password}','${req.body.name}')`, (err) => {
       if (err) {
         console.error(err.message);
       }
       const sessionkey = Math.floor(Math.random(0, 100));
+      console.log(sessionkey);
       sessionToHandle[sessionkey] = req.body.username;
       res.json({'sessionkey': sessionkey});
       console.log("Inserted");
@@ -52,6 +55,7 @@ app.post('/signup', (req,res) => {
 });
 
 app.post('/login', (req,res) => {
+  console.log('handling /login');
   db.serialize(() => {
     db.each(`SELECT password, name, count(*) as count FROM users where username='${req.body.username}' `, (err,row) => {      
       if (err) {
@@ -83,6 +87,7 @@ app.post('/login', (req,res) => {
 });
 
 app.get('/users', (req, res) => {
+  console.log('handling /users');
   db.serialize(() => {
     let users = [];
     db.each(`SELECT name, username, count(*) as count FROM users;`, (err,row) => {      
