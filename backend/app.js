@@ -45,7 +45,7 @@ app.post('/signup', (req,res) => {
       if (err) {
         console.error(err.message);
       }
-      const sessionkey = Math.floor(Math.random(0, 100));
+      const sessionkey = Math.floor(Math.random() * 100);
       console.log(sessionkey);
       sessionToHandle[sessionkey] = req.body.username;
       res.json({'sessionkey': sessionkey});

@@ -7,9 +7,9 @@ class ButtonFormat extends React.Component {
               className={ this.props.className }
               onClick={ this.props.handleSubmit }
             >
-            <a href={ this.props.hyperlink }>
+            {/* <a href={ this.props.hyperlink }> */}
             { this.props.buttonValue }
-            </a>
+            {/* </a> */}
             </button>
         );
     }

@@ -55,16 +55,22 @@ class App extends React.Component{
     }
   }
   handleSignup = (event) => {
+    console.log("handlneSignup");
+    console.log(event);
     const fetchPromise = fetch("http://35.226.157.89/signup", {
       method: 'POST',
-      body: JSON.stringfy({ username: this.props.handle, password: this.props.password, name: this.props.name }),
+      body: JSON.stringify({ username: this.props.handle, password: this.props.password, name: this.props.name }),
       headers: {
         'Content-Type': 'application/json'
       }        
     });
     fetchPromise.then(response => {
-      const json = response.json();
-      localStorage.setItem('sessionkey', json.sessionkey);
+      response.json().then((data) => {
+        console.log(data);
+        console.log(`saving to localstorage: ${data.sessionkey}`);
+        localStorage.setItem('sessionkey', data.sessionkey);
+        console.log("success");
+      });
     });
 
   }
@@ -73,7 +79,7 @@ class App extends React.Component{
       method: 'POST',
       body: JSON.stringify({ username: this.props.handle, password: this.props.password }),
       headers: {
-        'Content-Type': 'applciation/json'
+        'Content-Type': 'application/json'
       }
     });
     fetchPromise.then(response => {
