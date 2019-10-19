@@ -7,7 +7,7 @@ class Home extends React.Component{
     const sessionkeyInput = localStorage.getItem("sessionkey");
     const fetchPromise = fetch("http://35.226.157.89/session", {
       method: 'POST',
-      body: JSON.stringfy({ sessionkey: sessionkeyInput}),
+      body: JSON.stringify({ sessionkey: sessionkeyInput }),
       headers: {
         'Content-Type': 'application/json'
       }        

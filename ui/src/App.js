@@ -71,7 +71,7 @@ class App extends React.Component{
   handleLogin = (event) => {
     const fetchPromise = fetch("http://35.226.157.89/login", {
       method: 'POST',
-      body: JSON.stringfy({ username: this.props.handle, password: this.props.password }),
+      body: JSON.stringify({ username: this.props.handle, password: this.props.password }),
       headers: {
         'Content-Type': 'applciation/json'
       }
