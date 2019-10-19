@@ -55,7 +55,7 @@ class Signup extends React.Component {
                     className={ "submitButton save" } 
                     handleSubmit={ this.handleSubmit } 
                     buttonValue={ "Save" }
-                    hyperlink= { "" }
+                    hyperlink= { "/" }
 
                 /> 
             </div>

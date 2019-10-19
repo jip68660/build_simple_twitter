@@ -24,17 +24,18 @@ app.get('/text', (req, res) => {
 
 app.post('/session', (req,res) => {
   console.log('handling /session');
-  let handle = sessionToHandle[req.body.sessionkey];
   db.serialize(() => {
+    let handle = sessionToHandle[req.body.sessionkey];
+    var name = ""
     db.each(`SELECT name FROM users where username='${handle}' `, (err, row) => {
       if (err) {
         console.error(err.message);
       }
       else {
-        var name = row.name;
-        res.json({'name': name, 'handle': handle})
+        name = row.name;
       }
     });
+    res.json({'name': name, 'handle': handle})
   });
 });
 
@@ -45,7 +46,7 @@ app.post('/signup', (req,res) => {
       if (err) {
         console.error(err.message);
       }
-      const sessionkey = Math.floor(Math.random() * 100);
+      const sessionkey = Math.floor(Math.random() * 100000);
       console.log(sessionkey);
       sessionToHandle[sessionkey] = req.body.username;
       res.json({'sessionkey': sessionkey});
@@ -103,6 +104,7 @@ app.get('/users', (req, res) => {
           'name': row.name,
           'username': row.username,
         }
+        console.log('new user has created');
         users = users.concat(user);
       } 
     });
