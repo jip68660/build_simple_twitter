@@ -98,7 +98,7 @@ app.get('/users', (req, res) => {
           'name': row.name,
           'username': row.username,
         }
-        users = concat(users, user);
+        users = users.concat(user);
       } 
     });
     res.json(users);
