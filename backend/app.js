@@ -26,6 +26,10 @@ app.post('/session', (req,res) => {
   console.log('handling /session');
   db.serialize(() => {
     let handle = sessionToHandle[req.body.sessionkey];
+    if (handle === undefined) {
+      res.json({'error': 'invalid session'});
+      return
+    }
     console.log("using handle: " + handle);
     var name = ""
     db.each(`SELECT name FROM users WHERE username='${handle}' `, (err, row) => {

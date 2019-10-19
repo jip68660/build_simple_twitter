@@ -5,18 +5,21 @@ import StatusInput from './StatusInput';
 class Home extends React.Component{
   componentDidMount() {
     const sessionkeyInput = localStorage.getItem("sessionkey");
-    const fetchPromise = fetch("http://35.226.157.89/session", {
-      method: 'POST',
-      body: JSON.stringify({ sessionkey: sessionkeyInput }),
-      headers: {
-        'Content-Type': 'application/json'
-      }        
-    });
-    fetchPromise.then(response => {
-      response.json().then((data) => {
-        this.props.handleSet(data.name, data.handle)
+    if (sessionkeyInput !== undefined) {
+      const sessionkeyInput = localStorage.getItem("sessionkey");
+      const fetchPromise = fetch("http://35.226.157.89/session", {
+        method: 'POST',
+        body: JSON.stringify({ sessionkey: sessionkeyInput }),
+        headers: {
+          'Content-Type': 'application/json'
+        }        
       });
-    });``
+      fetchPromise.then(response => {
+        response.json().then((data) => {
+          this.props.handleSet(data.name, data.handle)
+        });
+      });
+    }
   }
   
   render() {
