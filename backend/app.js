@@ -23,7 +23,7 @@ app.get('/text', (req, res) => {
 });
 
 app.post('/session', (req,res) => {
-  let handle = sessionToHandle[req.body.sessionkey]
+  let handle = sessionToHandle[req.body.sessionkey];
   db.serialize(() => {
     db.each(`SELECT name FROM users where username='${handle}' `, (err, row) => {
       if (err) {
@@ -33,9 +33,9 @@ app.post('/session', (req,res) => {
         var name = row.name;
         res.json({'name': name, 'handle': handle})
       }
-    })
-  })
-})
+    });
+  });
+});
 
 app.post('/signup', (req,res) => {
   db.serialize(() => {      
@@ -70,6 +70,8 @@ app.post('/login', (req,res) => {
           const sessionkey = Math.floor(Math.random(0, 100));
           sessionToHandle[sessionkey] = req.body.username;
           res.json({'sessionkey': sessionkey});
+          sessionToHandle[sessionkey] = req.body.username;
+          res.json({'sessionkey': sessionkey});
         }
         else {
           res.json({});
@@ -77,6 +79,30 @@ app.post('/login', (req,res) => {
         console.log('Selected');     
       } 
     });
+  });
+});
+
+app.get('/users', (req, res) => {
+  db.serialize(() => {
+    let users = [];
+    db.each(`SELECT name, username, count(*) as count FROM users;`, (err,row) => {      
+      if (err) {
+        console.error(err.message);
+      }
+      if (row.count == 0) {
+        res.json({'error': 'no users registered'});
+        console.log("No selection");
+      }
+      else {
+        user = {
+          'name': row.name,
+          'username': row.username,
+        }
+        users = concat(users, user);
+      } 
+    });
+    res.json(users);
+    console.log('success');     
   });
 });
 
