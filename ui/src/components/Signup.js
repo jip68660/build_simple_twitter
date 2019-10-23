@@ -1,6 +1,6 @@
 import React from 'react';
-import InputFormat from './InputFormat';
-import ButtonFormat from './ButtonFormat';
+import InputFormat from './format/InputFormat';
+import ButtonFormat from './format/ButtonFormat';
 import useHistory from 'use-history';
 class Signup extends React.Component {
     constructor(props) {

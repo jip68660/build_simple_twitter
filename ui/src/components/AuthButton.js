@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonFormat from './ButtonFormat'
+import ButtonFormat from './format/ButtonFormat'
 
 const AuthButton = (props) => {
     return props.check ? (

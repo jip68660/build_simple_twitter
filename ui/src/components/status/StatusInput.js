@@ -1,7 +1,7 @@
 import React from 'react';
-import InputFormat from './InputFormat';
-import TextFormat from './TextFormat';
-import ButtonFormat from './ButtonFormat';
+import InputFormat from '../format/InputFormat';
+import TextFormat from '../format/TextFormat';
+import ButtonFormat from '../format/ButtonFormat';
 import "./StatusInput.css";
 
 class StatusInput extends React.Component {

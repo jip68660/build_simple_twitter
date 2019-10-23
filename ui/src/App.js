@@ -4,7 +4,7 @@ import About from './components/About';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
-import ButtonFormat from './components/ButtonFormat';
+import ButtonFormat from './components/format/ButtonFormat';
 import AuthButton from './components/AuthButton';
 import { fetchToServer } from './util';
 
@@ -154,7 +154,6 @@ class App extends React.Component{
                   password={ this.state.password }
                   handleChange={ this.handleChange } 
                   handleSignup={ this.handleSignup }  
-                  fakeAuth={ this.fakeAuth }
                 />
               );
              }
@@ -169,7 +168,6 @@ class App extends React.Component{
                   password={ this.state.password }
                   handleChange={ this.handleChange } 
                   handleLogin={ this.handleLogin }  
-                  fakeAuth={ this.fakeAuth }
                 />
               );
              }

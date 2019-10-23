@@ -1,6 +1,6 @@
 import React from 'react';
-import StatusList from './StatusList';
-import StatusInput from './StatusInput';
+import StatusList from './status/StatusList';
+import StatusInput from './status/StatusInput';
 import { fetchToServer } from '../util'
 
 class Home extends React.Component{
