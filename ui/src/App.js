@@ -49,7 +49,7 @@ class App extends React.Component{
         return {
           ...prevState,
           text: "",
-          // userPosts: [newUserPost].concat(prevState.userPosts)
+          userPosts: [newUserPost].concat(prevState.userPosts)
         }
       });
     }
