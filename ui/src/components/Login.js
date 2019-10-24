@@ -3,22 +3,17 @@ import InputFormat from './format/InputFormat';
 import ButtonFormat from './format/ButtonFormat';
 
 class Login extends React.Component {
-
     constructor(props) {
         super(props);
-
         this.handleHandle = this.handleHandle.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
     }
-
     handleHandle(event) {
         this.props.handleChange("handle", event);
     }
-
     handlePassword(event) {
         this.props.handleChange("password", event);
     }
-
     render() {
         return(
             <div className="inputTemplate">
@@ -46,9 +41,7 @@ class Login extends React.Component {
                 /> 
                 <a href="/signup">Signup</a>
             </div>
-        );
-     
+        );     
     }
 }
-
 export default Login;

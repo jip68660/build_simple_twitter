@@ -13,8 +13,7 @@ class Home extends React.Component{
         (data) => {this.props.handleSet(data.name, data.handle)}
       );
     }
-  }
-  
+  }  
   render() {
     console.log('rending Home.js');
     return(
@@ -31,8 +30,6 @@ class Home extends React.Component{
         </div> 
     );
   }
-
-
 }
 
 export default Home;

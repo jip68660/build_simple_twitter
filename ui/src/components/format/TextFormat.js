@@ -16,5 +16,4 @@ class TextFormat extends React.Component {
         );
     }
 }
-
 export default TextFormat;

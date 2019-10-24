@@ -19,7 +19,7 @@ class App extends React.Component{
       password: "",
       userPosts: []
     };
-    this.isLogIn = false;
+    this.isLogIn = true;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -28,14 +28,13 @@ class App extends React.Component{
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSet = this.handleSet.bind(this);
   }
-
   handleSubmit = (event) => {
     event.preventDefault();
     
     var now = new Date();
     var dateFormat = (now.getMonth()+1) + "/" + now.getDate();
 
-    if (this.state.handle === null) {
+    if (this.state.handle === null || this.state.handle === undefined) {
       alert("Please Log-in");
     }
     else {
@@ -50,7 +49,7 @@ class App extends React.Component{
         return {
           ...prevState,
           text: "",
-          userPosts: prevState.userPosts.concat([newUserPost])
+          // userPosts: [newUserPost].concat(prevState.userPosts)
         }
       });
     }
@@ -70,17 +69,15 @@ class App extends React.Component{
     );
   }
   handleLogout = (event) => {
-    console.log("clicked");
     event.preventDefault();
     this.setState((prevState) => {
       return {
         ...prevState,
-        currUser: null
+        name: null,
+        handle: null
       }
     });
-  }
-  
-  //Working on it.
+  }  
   handleLikes = (text) => {
     const index = this.state.userPosts.findIndex(userPost => userPost.text === text);
     const selected = this.state.userPosts[index];
@@ -117,14 +114,10 @@ class App extends React.Component{
                 <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/signup">Sign-up</Link>
-              </li>
-              <li>
                 <Link to="/login">Log-in</Link>
               </li>
             </ul>
           </nav>
-
           <Route 
             path="/"
             exact 
@@ -177,8 +170,6 @@ class App extends React.Component{
       </Router>
     );
   }
-
-
 }
 
 export default App;

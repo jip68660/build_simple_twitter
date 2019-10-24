@@ -31,5 +31,4 @@ class StatusInput extends React.Component {
         );
     }
 }
-
 export default StatusInput;

@@ -1,7 +1,6 @@
 import React from 'react';
 import InputFormat from './format/InputFormat';
 import ButtonFormat from './format/ButtonFormat';
-import useHistory from 'use-history';
 class Signup extends React.Component {
     constructor(props) {
         super(props);
@@ -22,8 +21,7 @@ class Signup extends React.Component {
     }
     handleSubmit(event) {
         this.props.handleSignup(event);
-    }
-    
+    }    
     render() {
         return(
             <div className="inputTemplate">
@@ -49,7 +47,6 @@ class Signup extends React.Component {
                         name={ "password" }
                         handleChange={ this.handlePassword }
                     />
-
                 </div>
                 <ButtonFormat 
                     className={ "submitButton save" } 
@@ -59,9 +56,7 @@ class Signup extends React.Component {
 
                 /> 
             </div>
-        );
-     
+        );     
     }
 }
-
 export default Signup;

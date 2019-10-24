@@ -14,5 +14,4 @@ class ButtonFormat extends React.Component {
         );
     }
 }
-
 export default ButtonFormat;
