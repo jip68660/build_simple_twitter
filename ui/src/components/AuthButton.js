@@ -6,7 +6,7 @@ const AuthButton = (props) => {
       <p>
          <ButtonFormat 
           className={ "submitButton signout" } 
-          handleSubmit={ () => {} } 
+          handleSubmit={ props.handleLogout } 
           buttonValue={ "Signout" }
           hyperlink={ "/login" }
         /> 

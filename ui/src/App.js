@@ -34,7 +34,7 @@ class App extends React.Component{
     var now = new Date();
     var dateFormat = (now.getMonth()+1) + "/" + now.getDate();
 
-    if (this.state.handle === null || this.state.handle === undefined) {
+    if (this.state.handle === null || this.state.handle === undefined || this.state.handle === "") {
       alert("Please Log-in");
     }
     else {
@@ -77,6 +77,7 @@ class App extends React.Component{
         handle: null
       }
     });
+    localStorage.removeItem("sessionkey");
   }  
   handleLikes = (text) => {
     const index = this.state.userPosts.findIndex(userPost => userPost.text === text);
@@ -104,7 +105,10 @@ class App extends React.Component{
     return(
       <Router>
         <div>
-          <AuthButton check = { this.isLogIn }/>
+          <AuthButton 
+            check = { this.isLogIn }
+            handleLogout = { this.handleLogout }
+          />
           <nav>
             <ul>
               <li>
@@ -129,7 +133,6 @@ class App extends React.Component{
                   handleSubmit={ this.handleSubmit } 
                   userPosts={ this.state.userPosts } 
                   handleLikes={ this.handleLikes }
-                  handleLogout={ this.handleLogout } 
                   handleSet = { this.handleSet }
                 /> 
               );

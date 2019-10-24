@@ -6,7 +6,9 @@ import { fetchToServer } from '../util'
 class Home extends React.Component{
   componentDidMount() {
     const sessionkeyInput = localStorage.getItem("sessionkey");
-    if (sessionkeyInput !== undefined) {
+    console.log(sessionkeyInput);
+    if (sessionkeyInput !== undefined && sessionkeyInput !== null) {
+      console.log("reached");
       fetchToServer(
         "session", 
         { sessionkey: sessionkeyInput }, 
@@ -15,7 +17,6 @@ class Home extends React.Component{
     }
   }  
   render() {
-    console.log('rending Home.js');
     return(
        <div>
           <StatusInput
